@@ -1,2 +1,2 @@
 # org-scheme
-Org-mode to Scheme and back.
+Org-mode <-> Scheme converter, written in Chicken Scheme.
