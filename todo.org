@@ -1,0 +1,22 @@
+* basic functionality of org->sexp [1/4]
+** DONE translates org header structure into a nested sexp
+** TODO [#A] if header of level N is followed by a header of level N+x, make this header exactly N+x deeply nested in sexp, not just N+1 as it now
+** TODO [#C] removal of leading whitespaces into org-header-format-str-sexp 
+** TODO [#B] support for non-header (doen't start with asterics) text such as comments, #+ blocks of text; non-specific
+
+* basic functionality of sexp->org [0/3]
+** TODO [#B] traslates sexp into a correct org header structure, structuraly identical to the original if sexp was obtained from org->sexp
+** TODO [#C] insertion of leading whitespaces into org-header-format-sexp-str
+** TODO [#B] support for non-header (doen't start with asterics) text such as comments, #+ blocks of text; non-specific
+
+* advanced functionality of org->sexp [0/1]
+** TODO support for non-header text, but specific
+
+* advanced functionality of sexp->org [0/1]
+** TODO support for non-header text, but specific
+
+* qa [0/4]
+** TODO [#A] add unit-testing before proceeding further
+** TODO [#A] start using the same principle for choosing [] and () for beatiful code; maybe adopt some racket formatting standard
+** TODO [#B] variable and function names to use same vocabulary and logic across the code
+** TODO [#B] good documentation formatting
