@@ -69,6 +69,14 @@
 
 ;; takes a list of consequitive org headers as strings, returns sexp representation
 (define (org->sexp org-list)
+  ;; creates N nested lists with e: e 2 -> ((e))
+  ;; this solved the problem, when header of level N is followed by header of level N+M, where M > 1
+  ;; this is better than just empty string (e.g. "* header 1\n**\n*** header 3"), because it allows
+  ;; to handle two different situations differently (actual empty header in the original and missed/skipped header in the original file)
+  (define (create-nested-lists e n)
+    (if (zero? n)
+        e
+        (create-nested-lists (cons e '()) (sub1 n))))
   (define (org->sexp-rec l n)
     (if (empty? l)
         l
@@ -77,16 +85,14 @@
                (t (cdr l))
                (lower (retrieve-lower-levels t h))
                (reduced (drop t (length lower))))
-          ;; (displayln n)
-          ;; (displayln lower)
-          ;; (displayln reduced)
-          ;; (displayln t)
-          ;; (displayln #\*)
-          (cons (cons h-str (org->sexp-rec lower h)) (org->sexp-rec reduced n))
+          (create-nested-lists (cons (cons h-str (org->sexp-rec lower h))
+                                     (org->sexp-rec reduced (sub1 h)))
+                               (- h n 1))
           )))
   (org->sexp-rec org-list 0))
 
 (org->sexp (filter org-header? (parse-org-file "test.org")))
+(org->sexp (filter org-header? (parse-org-file "todo.org")))
 
 (define (test-sub a)
   (displayln a)
@@ -97,3 +103,13 @@
 
 ;; takes sexp representation and turns it into org structure
 (define (sexp->org org-sexp) '())
+
+'((" test header level 1")
+  (" another lvl 1" (" second level"
+                     (" third")
+                     (" third2")))
+  (" stand alone lvl1" (
+                        (" wow lvl 3")
+                        (" ")
+                        ))
+  )
