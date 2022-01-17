@@ -38,8 +38,20 @@
 (define sexp-org-tests
   (test-suite
    "sexp->org suite"
-   (test-case "sexp->org basic" (fail "placeholder")) 
+   (test-case "sexp->org basic"
+     (check-equal? (sexp->org '(("header 1") ("header 1.2" ("header 2"))))
+                   '("* header 1" "* header 1.2" "** header 2")))
+   (test-case "sexp-org back and forth"
+     (let ((parsed-org (parse-org-file "test.org")))
+       (check-equal? (sexp->org (org->sexp parsed-org))
+                     parsed-org)))
    ))
 
 (run-tests org-sexp-tests 'normal)
 (run-tests sexp-org-tests 'normal)
+
+(define org (parse-org-file "test.org"))
+(define org-translated (org->sexp org))
+org
+org-translated
+(sexp->org org-translated)

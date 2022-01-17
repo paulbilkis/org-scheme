@@ -51,9 +51,7 @@
 
 ;; format applied after the string is extracted from sexp and before adding leading asterics
 (define (org-header-format-sexp-str s)
-  s)
-
-
+  (string-append " " s))
 
 ;; takes a list of consequitive org headers as strings, returns sexp representation
 (define (org->sexp org-list)
@@ -92,4 +90,21 @@
   (org->sexp-rec (filter org-header? org-list) 0))
 
 ;; takes sexp representation and turns it into org structure
-(define (sexp->org org-sexp) '())
+(define (sexp->org org-sexp)
+  (define (set-depth s d)
+    (if [equal? d 0]
+        s
+        (set-depth [string-append "*" s] (sub1 d))))
+
+  (define (org-sexp-loop sexp depth)
+    (if (empty? sexp)
+        sexp
+        (if [string? sexp]
+            (list [set-depth (org-header-format-sexp-str sexp) depth])
+            [append (org-sexp-loop (car sexp) (add1 depth))
+                    (org-sexp-loop (cdr sexp) depth)])
+        ))
+  
+  (org-sexp-loop org-sexp -1))
+
+
