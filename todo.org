@@ -17,10 +17,10 @@
 * advanced functionality of sexp->org [0/1]
 ** TODO support for non-header text, but specific
 
-* qa [1/6]
+* qa [2/6]
 ** DONE [#A] add unit-testing before proceeding further
 ** TODO [#B] add custom test that checks only the correct structure of sexp, not the headers (so we can discard different formatting)
-** TODO [#A] start using the same principle for choosing [] and () for beatiful code; maybe adopt some racket formatting standard
+** DONE [#A] start using the same principle for choosing [] and () for beatiful code; maybe adopt some racket formatting standard
 ** TODO [#B] variable and function names to use same vocabulary and logic across the code
 ** TODO [#B] good documentation formatting
 ** TODO [#C] maybe put common functions separetely?
